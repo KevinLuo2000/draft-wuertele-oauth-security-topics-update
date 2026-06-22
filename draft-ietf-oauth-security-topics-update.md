@@ -577,8 +577,8 @@ Throughout this section, the terms *upstream* and *downstream* are used relative
 The AS is *upstream* as the source of authorization and tokens, while the clients the broker serves are *downstream* as the recipients of the access the broker obtains on their behalf.
 
 The term *downstream client* furthermore denotes a unit of trust rather than necessarily a single application or an OAuth client in the sense of {{!RFC6749}}.
-Multiple applications belonging to the same owner, such as the toolkits of a single tenant of a multi-tenant broker or the applications of an organization operating its own broker, may legitimately share a single registration and consent decision and thus be treated as a single downstream client.
-Applications belonging to different owners constitute distinct downstream clients.
+Multiple applications under common administrative control, such as the applications of a single tenant of a multi-tenant broker or the applications of an organization operating its own broker, may legitimately share a single registration and consent decision and thus be treated as a single downstream client.
+Applications under separate administrative control constitute distinct downstream clients.
 
 When the broker registers itself once at an AS and reuses this single registration for every downstream client it serves, the AS cannot distinguish between those downstream clients.
 As a consequence, the consent the user grants for one downstream client is silently reused for any other downstream client that integrates the same broker.
@@ -629,7 +629,7 @@ The flaw is illustrated in the following figure:
 ~~~
 
 In the second phase of the figure, no consent prompt is rendered for `M-Client`.
-The AS only sees the broker's client identifier `cid_B@AS`, for which the user has already granted consent in the first phase, so the AS silently issues a token to `B` (cf. the `prompt` parameter with the `none` value defined in Section 3.1.2.1 of {{OpenID.Core}}) and `B` returns an `authz res` to `M-Client`.
+The AS only sees the broker's client identifier `cid_B@AS`, for which the user has already granted consent in the first phase, so the AS silently issues a token to `B` (cf. `prompt=none`, as defined in Section 3.1.2.1 of {{OpenID.Core}}) and `B` returns an `authz res` to `M-Client`.
 
 ### Countermeasures {#SharedConsentCountermeasures}
 
@@ -646,7 +646,6 @@ In practice, they are commonly established as follows:
 The broker provides each downstream client with a redirection URI that is hosted by the broker, and instructs the downstream client to register at every AS it expects to use, using the broker-provided redirection URI.
 The downstream client performs this registration at each AS, obtaining a distinct client identifier (e.g., `cid_HC@AS` for `H-Client` and `cid_MC@AS` for `M-Client`) and any associated credentials (such as a client secret).
 The downstream client then hands these credentials over to the broker, which gives the broker full control to act on behalf of the downstream client at the AS.
-Alternatively, the broker can register each downstream client at the AS itself.
 
 This countermeasure ensures that the AS recognizes each downstream client as a distinct client, and that any consent prompt rendered by the AS is bound to a single downstream client.
 Consent granted for one downstream client is therefore not reusable for another.
