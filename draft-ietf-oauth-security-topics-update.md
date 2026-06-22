@@ -570,7 +570,8 @@ Hence, the client MUST validate the binding of any *newly fixated authorization 
 
 In a brokered OAuth deployment, an intermediate entity (called the *broker* in the following) mediates between downstream clients and one or more upstream authorization servers (referred to as *AS* in the following).
 The broker acts as an OAuth client towards each AS.
-Towards its downstream clients, the broker either acts as an authorization server itself, exposing a standards-compliant OAuth interface, or it exposes a custom, non-OAuth interface.
+Towards its downstream clients, the broker either acts as an authorization server itself, exposing a standards-compliant OAuth interface, or it exposes a custom, non-OAuth interface.
+
 The attack and countermeasures described in this section apply regardless of which of these two interfaces the broker exposes to its downstream clients.
 
 Throughout this section, the terms *upstream* and *downstream* are used relative to the broker and the direction in which authorization flows.
@@ -678,7 +679,7 @@ Consent granted for one downstream client is therefore not reusable for another.
 
 #### Broker-Side Consent Screen {#SharedConsentBrokerConsent}
 
-The broker MUST present an explicit consent screen to the user that identifies the downstream client, before initiating its own authorization request to the AS on behalf of the downstream client.
+Unless consent for the downstream client has already been granted, the broker MUST present an explicit consent screen to the user that identifies the downstream client, before initiating its own authorization request to the AS on behalf of the downstream client.
 The broker MUST NOT skip this consent screen based on a previously granted consent for a different downstream client.
 The broker MAY remember the user's consent decision per downstream client (e.g., per `client_id` of the downstream client), but MUST NOT remember it across different downstream clients.
 
