@@ -607,7 +607,7 @@ The flaw is illustrated in the following figure:
 
 ~~~
   User        H-Client      M-Client          B                      AS
-    |             |             |             |                       |
+    |============================ Phase 1 ============================|
     |             |    authz req: cid_HC@B    |                       |
     |             |-------------------------->|                       |
     |             |             |             |  authz req: cid_B@AS  |
@@ -618,7 +618,7 @@ The flaw is illustrated in the following figure:
     |             |             |             |<----------------------|
     |             |         authz res         |                       |
     |             |<--------------------------|                       |
-    |             |             |             |                       |
+    |============================ Phase 2 ============================|
     |             |           authz req: cid_MC@B                     |
     |             |             |------------>|                       |
     |             |             |             |  authz req: cid_B@AS  |
