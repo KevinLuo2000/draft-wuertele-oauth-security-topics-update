@@ -811,6 +811,7 @@ for their valuable feedback and contributions to this document.
 * Simplify core attack description for Audience Injection attacks by moving "why token EP" discussion to a new section
 * Include concrete examples for how an attacker may misuse client assertions obtained via Audience Injection attacks
 * Add implementation considerations for Audience Injection countermeasures, including recommendations for how to deal with ASs that only accept their token endpoint as audience value
+* Add new section on Shared Consent in Brokered OAuth, describing the attack, its preconditions, and countermeasures
 
 
 -01
