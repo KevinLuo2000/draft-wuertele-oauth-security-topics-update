@@ -40,6 +40,7 @@ author:
  -
     fullname: "Kaixuan Luo"
     organization: The Chinese University of Hong Kong
+    abbrev: CUHK
     email: kaixuan@ie.cuhk.edu.hk
     region: Hong Kong
     country: China
