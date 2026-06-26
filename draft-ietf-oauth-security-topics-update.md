@@ -582,6 +582,42 @@ Example Attack:
 4. Upon receiving the `state` at the redirection endpoint, the client fixates the attacker's authorization session and completes the OAuth flow.
 5. The attacker's account at the client now gains access to the victim's resources.
 
+The following diagram illustrates the attack:
+
+~~~
+Attacker     (Victim) User          Client           AS             RS
+    |                |                |              |              |
+    | Initiate OAuth flow             |              |              |
+    |-------------------------------->|              |              |
+    | authz req URL with              |              |              |
+    | state=attacker_auth_session     |              |              |
+    |<--------------------------------|              |              |
+    |                |                |              |              |
+    | Send URL to victim out-of-band  |              |              |
+    | (e.g., via phishing link)       |              |              |
+    |--------------->|                |              |              |
+    |                |                |              |              |
+    |                | Visit authz req URL           |              |
+    |                |------------------------------>|              |
+    |                | User consent (may be skipped) |              |
+    |                |<----------------------------->|              |
+    |                |                | authz res with              |
+    |                |                | state=attacker_auth_session |
+    |                |                |<-------------|              |
+    |                |     victim's token associated |              |
+    |                |     with attacker's session   |              |
+    |                |     or identity at the client |              |
+    |                |                |              |              |
+    | Access resources                |              |              |
+    |-------------------------------->|              |              |
+    |                |                | Resource request            |
+    |                |                | (with victim's token)       |
+    |                |                |<--------------------------->|
+    | Unauthorized access to          |              |              |
+    | victim's resources              |              |              |
+    |<--------------------------------|              |              |
+~~~
+
 Variant:
 
 The client may first generate a pre-authorization URL for the purpose of fixating a session before redirecting to the authorization endpoint.
