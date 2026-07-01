@@ -562,15 +562,15 @@ Existing countermeasures for mix-up attacks ({{Section 4.4 of !RFC9700}}) can be
 
 ## Cross-user OAuth Session Fixation {#SessionFixation}
 
-Upon completion of an OAuth flow, a client often associates the resulting tokens with the user's identity at the client (e.g., the application's user account or anonymous identity). This identity information is supposedly maintained in an established session already bound to the user agent and accessible to the client during the OAuth flow.
+Upon completion of an OAuth flow, a client often associates the resulting tokens with the user's identity at the client, such as the application's user account or an anonymous, guest user identity. This identity information is supposedly maintained in an established session that is already bound to the user agent and accessible to the client during the OAuth flow.
 
-In real-world deployments, however, this prerequisite can be broken for various reasons. For instance, in OAuth deployments where a native app's backend acts as a confidential OAuth client, the OAuth flow crosses user agents: the native app obtains from the client a URI to request authorization, then opens it via an external user agent (typically the browser, as defined in {{?RFC8252}}) that has no established session with the client. As a workaround, the client may introduce a session fixation vulnerability: it encodes a session identifier into the URI, which fixates a dedicated authorization session to complete the OAuth flow for the user at the client.
+In real-world deployments, however, this assumption can be broken for various reasons. For instance, in OAuth deployments where a native app's backend acts as a confidential OAuth client, the OAuth flow crosses user agents: the native app obtains from the client a URI to request authorization, then opens it via an external user agent (typically the browser, as defined in {{?RFC8252}}) that has no established session with the client. As a workaround, the client may introduce a session fixation vulnerability: it encodes a session identifier into the URI, which fixates a dedicated authorization session to complete the OAuth flow for the user at the client.
 
 The Cross-user OAuth Session Fixation exploits this session fixation attack vector. The attacker tricks a victim user into completing an OAuth flow that the attacker has initiated at the client. Because the authorization session fixated by the attacker designates the attacker's identity at the client, the tokens issued for the victim's protected resources become associated with the attacker.
 
 In general, this session fixation vulnerability may be viewed as violating the requirement of "binding the contents of state to the browser [more precisely, the initiating user agent] session" to defend against Cross-Site Request Forgery (CSRF, see {{Section 4.7 of !RFC9700}}). However, while PKCE {{?RFC7636}} can mitigate CSRF, PKCE alone cannot mitigate this new attack: Since the entire OAuth flow, including the authorization request and the request to the redirection endpoint, is completed by the same victim user, the cryptographic binding between the authorization request and access token request enforced by PKCE is preserved. The impact of the new attack is also more severe than that of typical CSRF attacks.
 
-Note that this section focuses on the authorization code grant. For similar attacks in cross-device flows, see {{Section 4 of CDFS}}.
+Note that this section focuses on the authorization code grant in same-device scenarios. For similar attacks in cross-device flows, see {{Section 4 of CDFS}}.
 
 ### Attack Description {#FixationAttack}
 
@@ -586,7 +586,7 @@ Example Attack:
 
 Variant:
 
-After a user initiates the OAuth flow, the client may first generate a "pre-authorization" URI for the purpose of fixating a session, before redirecting the user agent to the authorization endpoint.
+After the OAuth flow is initiated, the client may first generate an implementation-specific "pre-authorization" URI for the purpose of fixating an authorization session, before redirecting the user agent to the authorization endpoint.
 
 Non-normative example request:
 
@@ -601,7 +601,7 @@ Non-normative example response:
               &redirect_uri=https%3A%2F%2Fclient.com%2Fcb
     Set-Cookie: auth_session_id=6064f11c-f73e-425b-b9b9-4a36088cdb2b
 
-In this variant, the attacker obtains and sends the pre-authorization URI to the victim instead of the authorization request URI. When the victim visits this URI, the attacker's authorization session is fixated before the authorization request, rather than at the redirection endpoint as in Step 4.
+In this variant, the attacker obtains and sends the pre-authorization URI to the victim user instead of the authorization request URI. When the victim visits this URI, the attacker's authorization session is fixated before the authorization request, rather than at the redirection endpoint as in Step 4.
 
 ### Countermeasures {#FixationCountermeasures}
 
