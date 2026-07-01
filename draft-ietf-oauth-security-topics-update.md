@@ -562,7 +562,7 @@ Existing countermeasures for mix-up attacks ({{Section 4.4 of !RFC9700}}) can be
 
 ## Cross-user OAuth Session Fixation {#SessionFixation}
 
-Upon completion of an OAuth flow, a client often associates the resulting tokens with the user's identity at the client, such as the application's user account or an anonymous, guest user identity. This identity information is supposedly maintained in an established session that is already bound to the user agent and accessible to the client during the OAuth flow.
+Upon completion of an OAuth flow, a client often associates the resulting tokens with the user's identity at the client (e.g., the application's user account or an anonymous guest user identity). This identity information is supposedly maintained in an established session that is already bound to the user agent and accessible to the client during the OAuth flow.
 
 In real-world deployments, however, this assumption can be broken for various reasons. For instance, in OAuth deployments where a native app's backend acts as a confidential OAuth client, the OAuth flow crosses user agents: the native app obtains from the client a URI to request authorization, then opens it via an external user agent (typically the browser, as defined in {{?RFC8252}}) that has no established session with the client. As a workaround, the client may introduce a session fixation vulnerability: it encodes a session identifier into the URI, which fixates a dedicated authorization session to complete the OAuth flow for the user at the client.
 
@@ -574,7 +574,7 @@ Note that this section focuses on the authorization code grant in same-device sc
 
 ### Attack Description {#FixationAttack}
 
-Preconditions: It is assumed that the client has maintained a user's session but, for usability reasons, does not want to or cannot authenticate the user via the session at the redirection endpoint.
+Preconditions: It is assumed that the client has maintained a user's session but, for usability reasons, does not want to or cannot identify the user via the session at the redirection endpoint.
 
 Example Attack:
 
