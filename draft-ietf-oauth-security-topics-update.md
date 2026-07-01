@@ -601,17 +601,19 @@ Attacker     (Victim) User          Client           AS             RS
     |                |------------------------------>|              |
     |                | User consent (may be skipped) |              |
     |                |<----------------------------->|              |
-    |                |                | authz res with              |
+    |                |                | authz res with code +       |
     |                |                | state=attacker_auth_session |
     |                |                |<-------------|              |
-    |                |    victim's token             |              |
-    |                |    associated with attacker's |              |
-    |                |    identity at the client     |              |
+    |                |                | Exchange code for token     |
+    |                |                |<------------>|              |
+    |                |  token for victim's resources |              |
+    |                |  associated with attacker's   |              |
+    |                |  identity at the client       |              |
     |                |                |              |              |
     | Access resources                |              |              |
     |-------------------------------->|              |              |
-    |                |                | Resource request            |
-    |                |                | (with victim's token)       |
+    |                |                | Resource request with token |
+    |                |                | for victim's resources      |
     |                |                |<--------------------------->|
     | Unauthorized access to          |              |              |
     | victim's resources              |              |              |
