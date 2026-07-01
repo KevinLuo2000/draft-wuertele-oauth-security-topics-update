@@ -589,24 +589,24 @@ Attacker     (Victim) User          Client           AS             RS
     |                |                |              |              |
     | Initiate OAuth flow             |              |              |
     |-------------------------------->|              |              |
-    | authz req URL with              |              |              |
+    | authz req URI with              |              |              |
     | state=attacker_auth_session     |              |              |
     |<--------------------------------|              |              |
     |                |                |              |              |
-    | Send URL to victim out-of-band  |              |              |
+    | Send URI to victim out-of-band  |              |              |
     | (e.g., via phishing link)       |              |              |
     |--------------->|                |              |              |
     |                |                |              |              |
-    |                | Visit authz req URL           |              |
+    |                | Visit authz req URI           |              |
     |                |------------------------------>|              |
     |                | User consent (may be skipped) |              |
     |                |<----------------------------->|              |
     |                |                | authz res with              |
     |                |                | state=attacker_auth_session |
     |                |                |<-------------|              |
-    |                |     victim's token associated |              |
-    |                |     with attacker's session   |              |
-    |                |     or identity at the client |              |
+    |                |    victim's token             |              |
+    |                |    associated with attacker's |              |
+    |                |    identity at the client     |              |
     |                |                |              |              |
     | Access resources                |              |              |
     |-------------------------------->|              |              |
